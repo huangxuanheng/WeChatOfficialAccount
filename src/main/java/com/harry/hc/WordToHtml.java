@@ -163,7 +163,7 @@ public class WordToHtml {
             String alignment = paragraph.getAlignment().name();
             html.append("style=\"text-align: "+alignment+";margin-bottom: 20px\"");
         }
-        html.append(">");
+        html.append(">\n");
         for (XWPFRun run : paragraph.getRuns()) {
             if (run instanceof XWPFHyperlinkRun) {
                 XWPFHyperlinkRun hyperlinkRun = (XWPFHyperlinkRun) run;
@@ -173,17 +173,17 @@ public class WordToHtml {
                 int fontSize = hyperlinkRun.getFontSize();
                 // 生成 HTML 超链接
                 html.append(String.format(
-                    "<a href=\"%s\" target=\"_blank\" style=\"color: %s; font-size: %dpx;\">%s</a>",
+                    "<a href=\"%s\" target=\"_blank\" style=\"color: %s; font-size: %dpx;\">%s</a>\n",
                     url, color, fontSize, text
                 ));
             }else if (run.isBold()) {
                 html.append("<strong>");
                 html.append(getText(run));
-                html.append("</strong>");
+                html.append("</strong>\n");
             } else if (run.isItalic()) {
                 html.append("<em>");
                 html.append(getText(run));
-                html.append("</em>");
+                html.append("</em>\n");
             } else {
                 html.append(getText(run));
             }
@@ -191,11 +191,11 @@ public class WordToHtml {
             // 检查是否有嵌入图片
             for (XWPFPicture picture : run.getEmbeddedPictures()) {
                 String imgPath = savePictureToDisk(picture.getPictureData());
-                html.append("<img src='" + imgPath + "' alt='Word 文档图片'/>");
+                html.append("<img src='" + imgPath + "' alt='Word 文档图片'/>\n");
             }
 
         }
-        html.append("</p>");
+        html.append("</p>\n");
         return html.toString();
     }
 
@@ -210,7 +210,7 @@ public class WordToHtml {
             // 提取字体大小
             int fontSize = run.getFontSize();
             // 生成包含样式的HTML
-            return String.format("<span style=\"color:#%s;font-size:%dpx;\">%s</span>",color,fontSize, text);
+            return String.format("<span style=\"color:#%s;font-size:%dpx;\">%s</span>\n",color,fontSize, text);
         }
         return text;
     }
